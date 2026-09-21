@@ -1,0 +1,190 @@
+/* Welcome Level Container */
+.welcome-level {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1rem 2rem;
+  z-index: 2;
+  position: relative;
+}
+
+.welcome-container {
+  width: min(100%, 28rem);
+  max-width: 90vw;
+  margin: 0 auto;
+}
+
+.welcome-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  text-align: center;
+}
+
+.welcome-heading {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.5rem, 10vw, 3.5rem);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.15;
+  color: #6B2D4F;
+  text-shadow: 0 0 20px rgba(255, 112, 173, 0.3);
+  animation: welcomeFadeIn 1s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.welcome-message {
+  margin: 0;
+  color: #7A2E55;
+  font-size: clamp(1.3rem, 5vw, 1.6rem);
+  font-family: "Caveat", cursive;
+  line-height: 1.5;
+  max-width: 35ch;
+  opacity: 0;
+  animation: welcomeSlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.3s both;
+}
+
+/* Welcome Photo Card */
+.welcome-photo-card {
+  position: relative;
+  width: min(100%, 24rem);
+  aspect-ratio: 4/3;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  animation: welcomeScaleIn 1s cubic-bezier(0.25, 1, 0.5, 1) 0.6s both;
+}
+
+.welcome-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 8, 22, 0.1) 0%,
+    rgba(20, 8, 22, 0.2) 50%,
+    rgba(20, 8, 22, 0.4) 100%
+  );
+  pointer-events: none;
+}
+
+/* Welcome Subtext */
+.welcome-subtext {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: welcomeSlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.9s both;
+}
+
+.subtext-line {
+  margin: 0;
+  color: #6B2D4F;
+  font-size: clamp(1.2rem, 4.5vw, 1.4rem);
+  font-family: "Caveat", cursive;
+  line-height: 1.4;
+}
+
+.subtext-line:last-child {
+  color: #8A315D;
+  font-size: clamp(1.3rem, 5vw, 1.5rem);
+}
+
+.secondary-message {
+  margin: 0;
+  color: #7A2E55;
+  font-size: clamp(1.1rem, 4vw, 1.3rem);
+  font-family: "Caveat", cursive;
+  font-style: italic;
+  opacity: 0;
+  animation: welcomeFadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.2s both;
+}
+
+/* Welcome Button */
+.welcome-button {
+  margin-top: 1rem;
+  opacity: 0;
+  animation: welcomeSlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) 1.5s both;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.welcome-button:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 1.5rem 3rem rgba(155, 93, 229, 0.4);
+}
+
+.welcome-button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Desktop & Tablet Styles */
+@media (min-width: 768px) {
+  .welcome-container {
+    width: min(100%, 36rem);
+  }
+
+  .welcome-photo-card {
+    width: min(100%, 28rem);
+  }
+
+  .welcome-heading {
+    font-size: clamp(3rem, 8vw, 4rem);
+  }
+
+  .welcome-message {
+    font-size: 1.5rem;
+  }
+
+  .subtext-line {
+    font-size: 1.4rem;
+  }
+
+  .subtext-line:last-child {
+    font-size: 1.6rem;
+  }
+
+  .secondary-message {
+    font-size: 1.4rem;
+  }
+}
+
+/* Animations */
+@keyframes welcomeFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes welcomeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes welcomeScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,156 @@
+.ending-level {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  background: #060308;
+  color: white;
+  padding: 1.5rem;
+}
+
+.ending-montage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.montage-photo {
+  position: absolute;
+  inset: 0;
+  background: var(--photo-bg) no-repeat center center;
+  background-size: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 2.5s ease-in-out, transform 10s linear;
+}
+
+.montage-photo.is-active {
+  opacity: 1;
+  transform: scale(1.01);
+}
+
+.ending-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ending-stars span {
+  position: absolute;
+  width: 0.2rem;
+  height: 0.2rem;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 8px white, 0 0 3px white;
+  animation: twinkle 3s ease-in-out infinite alternate;
+}
+
+/* New Ending Message Container */
+.ending-message-container {
+  position: relative;
+  z-index: 5;
+  width: min(100%, 32rem);
+  max-width: 90vw;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.birthday-heading {
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-weight: 400;
+  margin: 0 0 2rem 0;
+  line-height: 1.15;
+  color: #fff6fa;
+  text-shadow: 0 0 25px rgba(255, 112, 173, 0.5), 0 0 50px rgba(255, 112, 173, 0.3);
+}
+
+.message-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.message-line {
+  margin: 0;
+  color: #ffe4ec;
+  font-family: "Caveat", cursive;
+  font-size: clamp(1.4rem, 5.5vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.5;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.message-line.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.signature {
+  margin: 2rem 0 0 0;
+  color: #ffb347;
+  font-family: "Great Vibes", cursive;
+  font-size: clamp(1.8rem, 7vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  text-shadow: 0 0 20px rgba(255, 179, 71, 0.4);
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.signature.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tablet & Desktop Upscaling */
+@media (min-width: 768px) {
+  .ending-message-container {
+    width: min(88vw, 40rem);
+    padding: 2.5rem 2rem;
+  }
+
+  .birthday-heading {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+  }
+
+  .message-line {
+    font-size: 1.6rem;
+  }
+
+  .signature {
+    font-size: clamp(2rem, 6vw, 2.8rem);
+  }
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.4; transform: scale(0.9); }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="I made something for you - A handcrafted emotional birthday gift journey."
+    />
+    <title>I Made Something For You ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Great+Vibes&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/invitation.css" />
+  </head>
+  <body class="is-dark">
+    <main class="journey" data-chapter="1">
+      <section class="opening-level" aria-label="Birthday opening">
+        <!-- Portrait Section -->
+        <div class="portrait-section" id="portraitSection">
+          <div class="portrait-container">
+            <img id="portraitImage" src="" alt="Birthday portrait" class="portrait-photo" />
+            <div class="portrait-overlay"></div>
+          </div>
+          <div class="opening-messages" id="openingMessages">
+            <p class="message-line" id="message1"></p>
+            <p class="message-line" id="message2"></p>
+            <p class="message-line scroll-hint" id="message3"></p>
+          </div>
+        </div>
+
+        <!-- Password Section (revealed on scroll) -->
+        <div class="password-section" id="passwordSection" aria-hidden="true">
+          <div class="password-card">
+            <p class="password-kicker">A little secret before we begin...</p>
+            <h2>Enter your birthday to unlock this surprise ❤️</h2>
+            
+            <div class="password-input-group">
+              <input 
+                type="text" 
+                id="passwordInput" 
+                class="password-input" 
+                placeholder="Enter the secret..." 
+                maxlength="10"
+                aria-label="Enter your birthday"
+              />
+              <button id="submitPassword" class="primary-button" type="button">
+                Unlock
+              </button>
+            </div>
+            
+            <p id="passwordMessage" class="password-message"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/shared.js"></script>
+    <script src="js/invitation.js"></script>
+  </body>
+</html>

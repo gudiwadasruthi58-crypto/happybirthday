@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A birthday gift request - tell me what you want for your birthday."
+    />
+    <title>Chapter 5: Birthday Gift Request 🎁</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Great+Vibes&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/surprise.css" />
+  </head>
+  <body>
+    <main class="journey" data-chapter="5">
+      <section class="surprise-level" aria-label="Birthday gift request">
+        <div class="gift-request-container">
+          <div class="gift-icon">🎁</div>
+          
+          <h2 class="request-heading">One Last Question...</h2>
+          
+          <p class="request-subtitle">
+            If you could choose anything for your birthday,<br>
+            what would you want? ❤️
+          </p>
+          
+          <form id="giftRequestForm" class="gift-request-form">
+            <textarea 
+              id="wishInput" 
+              name="wish" 
+              class="wish-textarea" 
+              placeholder="Tell me what you want..."
+              rows="5"
+              aria-label="Your birthday wish"
+              required
+            ></textarea>
+            
+            <button type="submit" class="primary-button submit-wish-button">
+              Send My Wish 💌
+            </button>
+          </form>
+          
+          <p class="request-note">Be honest... I might actually get it 😌</p>
+          
+          <!-- Success message (hidden by default) -->
+          <div id="successMessage" class="success-message" aria-live="polite">
+            <p class="success-title">Wish received! ❤️</p>
+            <p class="success-subtitle">I'll keep that in mind... 🎁</p>
+          </div>
+          
+          <!-- Continue button (hidden by default, shown after successful submission) -->
+          <button id="continueButton" class="primary-button continue-button" type="button">
+            Continue ✨
+          </button>
+          
+          <!-- Validation message (hidden by default) -->
+          <div id="validationMessage" class="validation-message" aria-live="polite">
+            Please tell me what you want... 🥺
+          </div>
+          
+          <!-- Development message (shown when endpoint is empty) -->
+          <div id="devMessage" class="dev-message" aria-live="polite">
+            <p>Form submission not configured yet.</p>
+            <p>Add your Formspree endpoint in js/config.js to enable submissions.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/shared.js"></script>
+    <script src="js/surprise.js"></script>
+  </body>
+</html>
