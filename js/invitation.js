@@ -40,6 +40,28 @@ document.addEventListener("DOMContentLoaded", () => {
     startGlobalMusic();
   }
 
+  // 4.5. Add one-time interaction listeners for mobile music unlock
+  // This ensures music starts on first user interaction on mobile devices
+  let musicUnlocked = false;
+  const unlockMusicOnInteraction = () => {
+    if (musicUnlocked) return;
+    musicUnlocked = true;
+    if (typeof startGlobalMusic === "function") {
+      startGlobalMusic();
+    }
+    // Remove all interaction listeners after first unlock
+    document.removeEventListener("click", unlockMusicOnInteraction);
+    document.removeEventListener("touchstart", unlockMusicOnInteraction);
+    document.removeEventListener("keydown", unlockMusicOnInteraction);
+    document.removeEventListener("focusin", unlockMusicOnInteraction);
+  };
+
+  // Register interaction listeners (passive for touch)
+  document.addEventListener("click", unlockMusicOnInteraction);
+  document.addEventListener("touchstart", unlockMusicOnInteraction, { passive: true });
+  document.addEventListener("keydown", unlockMusicOnInteraction);
+  document.addEventListener("focusin", unlockMusicOnInteraction);
+
   // 5. Scroll detection to reveal password section
   function handleScroll() {
     if (passwordSectionRevealed) return;
