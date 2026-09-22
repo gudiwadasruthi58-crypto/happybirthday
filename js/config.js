@@ -78,6 +78,10 @@ Nuvvu okasari nannu baga edichelaa chesav. Adi endhuko neeku telusu kani aa tarv
 
 Naku inka gurthu undhi sem-1 lo na mundhe kurchune danivi. Nuvvu kevalam charging kosam matrame nannu piliche danivi.
 
+Kani adi edo ento Sahithi, nuvvu natho matladakapothe naku chala bore ga untadi aa day antha. Entha ayina alavatu ayipoyav ga roju. 😂
+
+Neeku aa ulli karam dosa and desserts unte chalu, ekkada unna brathikesthav. 😂
+
 Nov-27 manam first time S-block kalisam. Appudu nuvvu, Aasha and Mona unnaru. Aa roju naku inka gurthu undhi.
 
 Anyways, happy birthday Sahithi!!
