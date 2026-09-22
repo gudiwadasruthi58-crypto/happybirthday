@@ -1,4 +1,5 @@
 let audioInstance = null;
+let unlockListenersAdded = false;
 
 // Initialize when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
@@ -54,9 +55,9 @@ function createAmbientParticles() {
   const particleLayer = document.getElementById("particleLayer");
   if (!particleLayer) return;
 
-  const symbols = ["✦", "♡", "·", "✧"]; // Removed standard colorful emoji ❤️, replaced with outlines/sparkles!
+  const symbols = ["✦", "♡", "·", "✧"];
   const fragment = document.createDocumentFragment();
-  const count = window.innerWidth < 600 ? 18 : 35; // Optimize particle count for mobile performance
+  const count = window.innerWidth < 600 ? 18 : 35;
 
   for (let index = 0; index < count; index += 1) {
     const particle = document.createElement("span");
@@ -73,14 +74,17 @@ function createAmbientParticles() {
   particleLayer.appendChild(fragment);
 }
 
-// Background Music Persistence Logic
+// Background Music System
 function initBackgroundMusic() {
   if (typeof BirthdayConfig === "undefined" || !BirthdayConfig.musicUrl) return;
 
   const path = window.location.pathname;
 
   // Restrict background music loading to all chapters (index, gift, story, letter, surprise, ending)
-  const isMusicPage = path.includes("index.html") ||
+  // Also recognize GitHub Pages root path (e.g., /happybirthday/) as index.html
+  const isRootPath = path.endsWith("/") || path === "" || path.endsWith("/happybirthday/");
+  const isMusicPage = isRootPath ||
+                      path.includes("index.html") ||
                       path.includes("gift.html") ||
                       path.includes("story.html") ||
                       path.includes("letter.html") ||
@@ -88,25 +92,32 @@ function initBackgroundMusic() {
                       path.includes("ending.html");
   if (!isMusicPage) return;
 
-  // Initialize playback state when index.html or story.html opens
-  if ((path.includes("index.html") || path.includes("story.html")) && !sessionStorage.getItem("musicInitialized")) {
+  // Initialize playback state when index.html, root path, or story.html opens
+  if ((isRootPath || path.includes("index.html") || path.includes("story.html")) && !sessionStorage.getItem("musicInitialized")) {
     sessionStorage.setItem("musicPlaying", "true");
     sessionStorage.setItem("musicTime", "0");
     sessionStorage.setItem("volumeIncreased", "false");
     sessionStorage.setItem("musicInitialized", "true");
   }
 
+  // Create audio element once
   let audio = document.getElementById("global-background-music");
   if (!audio) {
+    console.log("Music: audio element created");
     audio = document.createElement("audio");
     audio.id = "global-background-music";
     audio.loop = true;
     audio.preload = "auto";
+    audio.playsInline = true;
+    audio.setAttribute("playsinline", "true");
+    audio.setAttribute("webkit-playsinline", "true");
     audio.src = BirthdayConfig.musicUrl;
+    audio.volume = 0.4;
     document.body.appendChild(audio);
   }
   audioInstance = audio;
 
+  // Restore playback position
   const savedTime = sessionStorage.getItem("musicTime");
   const isPlaying = sessionStorage.getItem("musicPlaying");
   const volumeIncreased = sessionStorage.getItem("volumeIncreased") === "true";
@@ -123,81 +134,82 @@ function initBackgroundMusic() {
     audio.volume = 0.4;
   }
 
-  if (isPlaying === "true") {
-    const isFirstStoryPlay = path.includes("story.html") && parseFloat(savedTime || "0") === 0;
-    attemptPlayMusic(isFirstStoryPlay);
-  }
-
-  // Monitor playback time to trigger climax transition after 17 seconds
+  // Monitor playback time
   audio.addEventListener("timeupdate", () => {
     sessionStorage.setItem("musicTime", audio.currentTime);
     
     const hasIncreased = sessionStorage.getItem("volumeIncreased") === "true";
     if (audio.currentTime >= 17 && !hasIncreased) {
       sessionStorage.setItem("volumeIncreased", "true");
-      fadeVolume(0.4, 0.85, 2500); // Fades volume from 40% to 85% over 2.5s
+      fadeVolume(0.4, 0.85, 2500);
     }
   });
-}
 
-function startGlobalMusic() {
-  sessionStorage.setItem("musicPlaying", "true");
-  if (audioInstance) {
-    attemptPlayMusic();
+  // Start music if it should be playing
+  if (isPlaying === "true") {
+    startMusic();
   }
 }
 
-function attemptPlayMusic(forceWait = false) {
+// Single centralized music start function
+function startMusic() {
   if (!audioInstance) return;
 
-  // Enhance iOS compatibility configurations
-  audioInstance.setAttribute("playsinline", "true");
-  audioInstance.setAttribute("webkit-playsinline", "true");
-
-  const tryPlay = () => {
-    audioInstance.play()
-      .then(() => {
-        console.log("Playback successfully started/unlocked on interaction!");
-        removeUnlockListeners();
-      })
-      .catch((error) => {
-        console.log("Playback attempt blocked: ", error.message);
-        // Playback failed, listeners remain attached to retry on next user action
-      });
-  };
-
-  const unlockEvents = ["click", "touchstart", "pointerdown", "keydown", "scroll"];
-
-  const handleInteraction = () => {
-    tryPlay();
-  };
-
-  const removeUnlockListeners = () => {
-    unlockEvents.forEach((evt) => {
-      document.removeEventListener(evt, handleInteraction, { passive: true });
+  // Try autoplay immediately
+  audioInstance.play()
+    .then(() => {
+      console.log("Music: autoplay started");
+      sessionStorage.setItem("musicPlaying", "true");
+      removeUnlockListeners();
+    })
+    .catch((error) => {
+      console.log("Music: autoplay blocked, waiting for interaction");
+      // Autoplay blocked, register unlock listeners
+      addUnlockListeners();
     });
-  };
+}
 
-  const addUnlockListeners = () => {
-    unlockEvents.forEach((evt) => {
-      document.addEventListener(evt, handleInteraction, { passive: true });
+// Single global unlock handler - added once, removed after success
+const unlockHandler = () => {
+  if (!audioInstance) return;
+  
+  console.log("Music: interaction detected, attempting playback");
+  audioInstance.play()
+    .then(() => {
+      console.log("Music: playback started successfully");
+      sessionStorage.setItem("musicPlaying", "true");
+      removeUnlockListeners();
+    })
+    .catch((error) => {
+      console.log("Music: playback failed:", error.message);
+      // Keep listeners attached for retry
     });
-  };
+};
 
-  if (forceWait) {
-    console.log("Audio waiting for first interaction gesture.");
-    addUnlockListeners();
-  } else {
-    // Attempt playing immediately (standard unlock restore)
-    audioInstance.play()
-      .then(() => {
-        console.log("Audio played immediately successfully!");
-      })
-      .catch((error) => {
-        console.log("Autoplay blocked immediately. Registering unlock gesture handlers: ", error.message);
-        addUnlockListeners();
-      });
-  }
+function addUnlockListeners() {
+  if (unlockListenersAdded || !audioInstance) return;
+  
+  const events = ["pointerdown", "touchstart", "click", "keydown"];
+  events.forEach((evt) => {
+    document.addEventListener(evt, unlockHandler, { passive: true });
+  });
+  unlockListenersAdded = true;
+}
+
+function removeUnlockListeners() {
+  if (!unlockListenersAdded) return;
+  
+  const events = ["pointerdown", "touchstart", "click", "keydown"];
+  events.forEach((evt) => {
+    document.removeEventListener(evt, unlockHandler);
+  });
+  unlockListenersAdded = false;
+}
+
+// Public API for starting music (called by invitation.js)
+function startGlobalMusic() {
+  console.log("Music: startGlobalMusic called");
+  startMusic();
 }
 
 // Page Transition Helper
